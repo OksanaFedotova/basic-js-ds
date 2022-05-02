@@ -15,21 +15,38 @@ const { ListNode } = require('../extensions/list-node.js');
  */
 class Queue {
 
-  queue = [];
-
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+}
   getUnderlyingList() {
-   return this.queue
+    return this.head
   }
-
   enqueue(value) {
-   this.queue.push(new ListNode(value))
+    const node = new ListNode(value); // creates the node using class Node
+
+    if (this.head) { // if the first Node exitsts
+        this.tail.next = node; // inserts the created node after the tail of our Queue
+        this.tail = node; // now the created node is the last node
+    } else { // if there are no nodes in the Queue
+        this.head = node; // the created node is a head 
+        this.tail = node // also the created node is a tail in Queue because it is single.
+    }
+
+    this.length++; // increases the length of Queue by 1
   }
 
   dequeue() {
-   this.queue.shift()
+    const current = this.head; // saves the link to the head which we need to remove
+    this.head = this.head.next; // moves the head link to the second Node in the Queue
+    this.length--; // decreaments the length of our Queue
+
+    return current.value; // returns the removed Node's value
   }
 }
 
 module.exports = {
   Queue
 };
+
